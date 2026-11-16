@@ -1,0 +1,16 @@
+default: anex
+hosts:
+  sign.lampslogistics.com: lamp
+folders:
+  "Trucking — LAMP Logistics": lamp
+brands:
+  lamp:
+    name: "LAMP Logistics"
+    logo: "/brands/lamp.svg"
+    color: "#047857"
+    url: "https://lampslogistics.com"
+  anex:
+    name: "ANEX Holdings"
+    logo: "/brands/anex.svg"
+    color: "#111111"
+    url: ""

@@ -1,0 +1,36 @@
+name: Build and Push Branded DocuSeal Image
+
+on:
+  push:
+    branches:
+      - brand
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/annex561/docuseal-brand:3.3.5-brand.${{ github.run_number }}
+
+      - name: Make package public
+        run: |
+          echo "Image pushed: ghcr.io/annex561/docuseal-brand:3.3.5-brand.${{ github.run_number }}"
+          echo "Note: The package must be made public manually in GitHub settings."

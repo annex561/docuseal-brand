@@ -5,6 +5,8 @@ module Submissions
     module_function
 
     def call(submitter, with_audit: true)
+      Current.brand = Brand.for_submission(submitter.submission)
+      
       pdf = build_combined_pdf(submitter, with_audit:)
 
       submission = submitter.submission

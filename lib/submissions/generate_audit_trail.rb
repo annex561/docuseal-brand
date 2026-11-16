@@ -32,6 +32,8 @@ module Submissions
 
     # rubocop:disable Metrics
     def call(submission)
+      Current.brand = Brand.for_submission(submission)
+      
       account = submission.account
 
       last_submitter = submission.submitters.select(&:completed_at).max_by(&:completed_at)
