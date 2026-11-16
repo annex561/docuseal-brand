@@ -7,17 +7,23 @@ RSpec.describe 'Branding', type: :request do
     let(:account) { create(:account) }
     let(:user) { create(:user, account: account) }
     let(:template) { create(:template, account: account, author: user) }
-    let(:submission) { create(:submission, template: template, account: account) }
+    let(:submission) { create(:submission, :with_submitters, template: template, account: account) }
     let(:submitter) { submission.submitters.first }
 
     context 'with LAMP Logistics host' do
       it 'includes LAMP Logistics brand' do
         get "/s/#{submitter.slug}", headers: { 'Host' => 'sign.lampslogistics.com' }
 
-        expect(response.body).to include('LAMP Logistics')
+        doc = Nokogiri::HTML.parse(response.body)
+        visible_text = doc.css('body').text
+        expect(visible_text).to include('LAMP Logistics')
+        expect(visible_text).not_to include('DocuSeal')
+        expect(visible_text).not_to include('ANEX Holdings')
+
+        expect(doc.at_css('title')&.text).to eq('LAMP Logistics')
+        expect(doc.at_css('img[alt="LAMP Logistics"]')).to be_present
+        expect(doc.at_css('[data-brand-name="LAMP Logistics"]')).to be_present
         expect(response.body).to include('https://github.com/annex561/docuseal-brand')
-        expect(response.body).not_to include('DocuSeal')
-          .or include('ANEX Holdings')
       end
     end
 
@@ -25,9 +31,15 @@ RSpec.describe 'Branding', type: :request do
       it 'includes ANEX Holdings brand' do
         get "/s/#{submitter.slug}", headers: { 'Host' => 'example.com' }
 
-        expect(response.body).to include('ANEX Holdings')
+        doc = Nokogiri::HTML.parse(response.body)
+        visible_text = doc.css('body').text
+        expect(visible_text).to include('ANEX Holdings')
+        expect(visible_text).not_to include('LAMP Logistics')
+
+        expect(doc.at_css('title')&.text).to eq('ANEX Holdings')
+        expect(doc.at_css('img[alt="ANEX Holdings"]')).to be_present
+        expect(doc.at_css('[data-brand-name="ANEX Holdings"]')).to be_present
         expect(response.body).to include('https://github.com/annex561/docuseal-brand')
-        expect(response.body).not_to include('LAMP Logistics')
       end
     end
   end

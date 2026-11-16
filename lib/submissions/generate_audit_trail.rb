@@ -32,8 +32,12 @@ module Submissions
 
     # rubocop:disable Metrics
     def call(submission)
-      Current.brand = Brand.for_submission(submission)
-      
+      Current.set(brand: Brand.for_submission(submission)) do
+        build_and_save_audit_trail(submission)
+      end
+    end
+
+    def build_and_save_audit_trail(submission)
       account = submission.account
 
       last_submitter = submission.submitters.select(&:completed_at).max_by(&:completed_at)

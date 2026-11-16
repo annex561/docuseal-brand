@@ -83,8 +83,12 @@ module Submissions
 
     # rubocop:disable Metrics
     def call(submitter)
-      Current.brand = Brand.for_submission(submitter.submission)
-      
+      Current.set(brand: Brand.for_submission(submitter.submission)) do
+        build_result_attachments(submitter)
+      end
+    end
+
+    def build_result_attachments(submitter)
       return generate_detached_signature_attachments(submitter) if detached_signature?(submitter)
 
       pdfs_index = generate_pdfs(submitter)

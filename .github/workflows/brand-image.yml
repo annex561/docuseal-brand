@@ -30,7 +30,7 @@ jobs:
           push: true
           tags: ghcr.io/annex561/docuseal-brand:3.3.5-brand.${{ github.run_number }}
 
-      - name: Make package public
+      - name: Report image details
         run: |
           echo "Image pushed: ghcr.io/annex561/docuseal-brand:3.3.5-brand.${{ github.run_number }}"
           echo "Note: The package must be made public manually in GitHub settings."

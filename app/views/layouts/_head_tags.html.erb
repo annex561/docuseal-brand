@@ -1,5 +1,6 @@
+<% brand = Current.brand || (defined?(request) ? Brand.for_host(request.host) : Brand.new(Brand::BRANDS_CONFIG['default'])) %>
 <title>
-  <%= turbo_native_app? ? content_for(:native_title) : (content_for(:html_title) || (signed_in? ? 'DocuSeal' : 'DocuSeal | Open Source Document Signing')) %>
+  <%= turbo_native_app? ? content_for(:native_title) : (content_for(:html_title) || (signed_in? ? brand.name : "#{brand.name} | Open Source Document Signing")) %>
 </title>
 <%= render 'shared/meta' %>
 <% if turbo_native_app? %>
