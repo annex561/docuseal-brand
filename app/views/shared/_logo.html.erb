@@ -1,2 +1,2 @@
 <% brand = Current.brand || (defined?(request) ? Brand.for_host(request.host) : Brand.new(Brand::BRANDS_CONFIG['default'])) %>
-<img src="<%= brand.logo %>" class="<%= local_assigns[:class] %>" height="<%= local_assigns.fetch(:height, '37') %>" width="<%= local_assigns.fetch(:width, '37') %>" alt="<%= brand.name %>" data-brand-name="<%= brand.name %>" />
+<img src="<%= brand.logo %>" class="<%= local_assigns[:class] %>" height="<%= local_assigns.fetch(:height, '37') %>" width="<%= local_assigns.fetch(:width, '37') %>" alt="<%= brand.name %>" data-brand-name="<%= brand.name %>">

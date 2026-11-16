@@ -14,7 +14,7 @@ RSpec.describe 'Branding', type: :request do
       it 'includes LAMP Logistics brand' do
         get "/s/#{submitter.slug}", headers: { 'Host' => 'sign.lampslogistics.com' }
 
-        doc = Nokogiri::HTML.parse(response.body)
+        doc = response.parsed_body
         visible_text = doc.css('body').text
         expect(visible_text).to include('LAMP Logistics')
         expect(visible_text).not_to include('DocuSeal')
@@ -31,7 +31,7 @@ RSpec.describe 'Branding', type: :request do
       it 'includes ANEX Holdings brand' do
         get "/s/#{submitter.slug}", headers: { 'Host' => 'example.com' }
 
-        doc = Nokogiri::HTML.parse(response.body)
+        doc = response.parsed_body
         visible_text = doc.css('body').text
         expect(visible_text).to include('ANEX Holdings')
         expect(visible_text).not_to include('LAMP Logistics')

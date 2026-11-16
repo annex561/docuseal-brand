@@ -14,6 +14,8 @@ class ApplicationMailer < ActionMailer::Base
     ActiveStorage::Current.url_options = Docuseal.default_url_options
   end
 
+  before_action :set_brand
+
   after_action :set_message_metadata
   after_action :set_message_uuid
 
@@ -39,5 +41,11 @@ class ApplicationMailer < ActionMailer::Base
 
   def put_metadata(attrs)
     @message_metadata = (@message_metadata || {}).merge(attrs)
+  end
+
+  def set_brand
+    return unless defined?(@submitter) && @submitter
+
+    Current.brand = Brand.for_submission(@submitter.submission)
   end
 end
