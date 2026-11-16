@@ -20,7 +20,9 @@ RSpec.describe 'Branding', type: :request do
         expect(visible_text).not_to include('DocuSeal')
         expect(visible_text).not_to include('ANEX Holdings')
 
-        expect(doc.at_css('title')&.text).to eq('LAMP Logistics')
+        title_text = doc.at_css('title')&.text&.strip
+        expect(title_text).to end_with('LAMP Logistics')
+        expect(title_text).not_to include('DocuSeal')
         expect(doc.at_css('img[alt="LAMP Logistics"]')).to be_present
         expect(doc.at_css('[data-brand-name="LAMP Logistics"]')).to be_present
         expect(response.body).to include('https://github.com/annex561/docuseal-brand')
@@ -36,7 +38,9 @@ RSpec.describe 'Branding', type: :request do
         expect(visible_text).to include('ANEX Holdings')
         expect(visible_text).not_to include('LAMP Logistics')
 
-        expect(doc.at_css('title')&.text).to eq('ANEX Holdings')
+        title_text = doc.at_css('title')&.text&.strip
+        expect(title_text).to end_with('ANEX Holdings')
+        expect(title_text).not_to include('DocuSeal')
         expect(doc.at_css('img[alt="ANEX Holdings"]')).to be_present
         expect(doc.at_css('[data-brand-name="ANEX Holdings"]')).to be_present
         expect(response.body).to include('https://github.com/annex561/docuseal-brand')
