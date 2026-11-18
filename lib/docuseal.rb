@@ -117,7 +117,7 @@ module Docuseal
   end
 
   def product_name
-    PRODUCT_NAME
+    Current.brand&.name || PRODUCT_NAME
   end
 
   def refresh_default_url_options!

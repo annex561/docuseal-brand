@@ -5,6 +5,12 @@ module Submissions
     module_function
 
     def call(submitter, with_audit: true)
+      Current.set(brand: Brand.for_submission(submitter.submission)) do
+        build_and_save_pdf(submitter, with_audit:)
+      end
+    end
+
+    def build_and_save_pdf(submitter, with_audit:)
       pdf = build_combined_pdf(submitter, with_audit:)
 
       submission = submitter.submission

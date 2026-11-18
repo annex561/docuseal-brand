@@ -1,1 +1,2 @@
-<% content_for(:html_title, "#{title} | DocuSeal") %>
+<% brand = Current.brand || (defined?(request) ? Brand.for_host(request.host) : Brand.new(Brand::BRANDS_CONFIG['default'])) %>
+<% content_for(:html_title, "#{title} | #{brand.name}") %>

@@ -100,12 +100,11 @@
       v-if="attribution"
       class="text-center mt-4"
     >
-      {{ t('powered_by') }}
-      <a
-        href="https://www.docuseal.com/start"
+      {{ brandName }} · Secure e-signature · <a
+        href="https://github.com/annex561/docuseal-brand"
         target="_blank"
         class="underline"
-      >DocuSeal</a> - {{ t('open_source_documents_software') }}
+      >Source</a>
     </div>
   </div>
 </template>
@@ -191,6 +190,11 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    brandName: {
+      type: String,
+      required: false,
+      default: 'DocuSeal'
     }
   },
   data () {

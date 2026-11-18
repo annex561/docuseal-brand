@@ -647,6 +647,7 @@
         v-else
         :is-demo="isDemo"
         :attribution="attribution"
+        :brand-name="brandName"
         :has-signature-fields="stepFields.some((fields) => fields.some((f) => ['signature', 'initials'].includes(f.type)))"
         :has-multiple-documents="hasMultipleDocuments"
         :completed-button="completedRedirectUrl ? {} : completedButton"
@@ -1025,6 +1026,11 @@ export default {
       type: Boolean,
       required: false,
       default: true
+    },
+    brandName: {
+      type: String,
+      required: false,
+      default: 'DocuSeal'
     },
     language: {
       type: String,
