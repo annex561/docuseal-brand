@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Mailer branding' do
+RSpec.describe ApplicationMailer do
   let(:account) { create(:account) }
   let(:user) { create(:user, account:) }
 
