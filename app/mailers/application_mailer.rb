@@ -14,8 +14,6 @@ class ApplicationMailer < ActionMailer::Base
     ActiveStorage::Current.url_options = Docuseal.default_url_options
   end
 
-  before_action :set_brand
-
   after_action :set_message_metadata
   after_action :set_message_uuid
 
@@ -43,9 +41,18 @@ class ApplicationMailer < ActionMailer::Base
     @message_metadata = (@message_metadata || {}).merge(attrs)
   end
 
-  def set_brand
-    return unless defined?(@submitter) && @submitter
+  # Actions assign @submitter / @submission inside the action body, so a before_action
+  # never sees them. Templates render inside #mail, so brand is scoped to that call
+  # and restored after (no leak into the caller's request or job).
+  def mail(headers = {}, &)
+    submission = @submitter&.submission || @submission
+    return super unless submission
 
-    Current.brand = Brand.for_submission(@submitter.submission)
+    previous_brand = Current.brand
+    Current.brand = Brand.for_submission(submission)
+
+    super
+  ensure
+    Current.brand = previous_brand if submission
   end
 end
